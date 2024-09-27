@@ -4,11 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon index.js",
+    "start": "cross-env NODE_ENV=production node index.js",
+    "dev": "cross-env NODE_ENV=development nodemon index.js",
     "build:ui": "rm -rf build && cd ../part2/part2class && npm run build && cp -r build ../part3/part3class",
     "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && git push",
-    "test": "jest --verbose"
+    "test": "cross-env NODE_ENV=test jest --verbose --runInBand"
   },
   "author": "TGVM",
   "license": "ISC",
@@ -16,6 +16,7 @@
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.21.0",
+    "express-async-errors": "^3.1.1",
     "mongodb": "4.0",
     "mongoose": "^8.6.3"
   },
@@ -26,6 +27,7 @@
     "nodemon": "^3.1.7"
   },
   "jest": {
-   "testEnvironment": "node"
- }
+    "testEnvironment": "node",
+    "globalTeardown": "./tests/teardown.js"
+  }
 }
